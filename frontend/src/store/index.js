@@ -1,29 +1,31 @@
 import { create } from 'zustand';
 
 const useDrawingStore = create((set) => ({
-  lines: [],
+  shapes: [],
+  selectedShapeId: null,
+  tool: 'select',
   color: '#000000',
   strokeWidth: 5,
   isDrawing: false,
 
   setColor: (color) => set({ color }),
+  setTool: (tool) => set({ tool }),
   setStrokeWidth: (width) => set({ strokeWidth: width }),
 
-  startDrawing: () => set({ isDrawing: true }),
-  stopDrawing: () => set({ isDrawing: false }),
+  addShape: (shape) =>
+    set((state) => ({
+      shapes: [...state.shapes, shape],
+    })),
 
-  addLine: (newLine) => set((state) => ({ lines: [...state.lines, newLine] })),
+  updateShape: (id, newAttrs) => {
+    set((state) => ({
+      shapes: state.shapes.map((s) =>
+        s.id === id ? { ...s, ...newAttrs } : s
+      ),
+    }));
+  },
 
-  updateLastLine: (newPoints) =>
-    set((state) => {
-      const lines = [...state.lines];
-      if (lines.length === 0) return {};
-      lines[lines.length - 1] = {
-        ...lines[lines.length - 1],
-        points: newPoints,
-      };
-      return { lines };
-    }),
+  setSelectedShapeId: (id) => set({ selectedShapeId: id }),
 }));
 
 export default useDrawingStore;
