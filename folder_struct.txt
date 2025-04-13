@@ -1,0 +1,20 @@
+digital-whiteboard/
+├── backend/
+│   ├── src/
+│   │   ├── server.js
+│   │   ├── routes/
+│   │   └── controllers/
+│   ├── .env
+│   ├── package.json
+│   └── README.md
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── context/
+│   │   ├── App.js
+│   │   └── index.js
+│   ├── package.json
+│   └── README.md
+└── README.md
