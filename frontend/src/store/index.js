@@ -5,7 +5,7 @@ const useDrawingStore = create((set) => ({
   selectedShapeId: null,
   tool: 'select',
   color: '#000000',
-  strokeWidth: 5,
+  strokeWidth: 2,
   isDrawing: false,
 
   setColor: (color) => set({ color }),
