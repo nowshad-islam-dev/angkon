@@ -13,6 +13,9 @@ import {
   RadioButtonUnchecked,
   CropSquare,
   ArrowForward,
+  Delete,
+  CleaningServices,
+  AutoFixOff,
 } from '@mui/icons-material';
 
 const ToolbarComponent = () => {
@@ -26,6 +29,8 @@ const ToolbarComponent = () => {
     shapes,
     updateShape,
     selectedShapeId,
+    deleteShape,
+    clearCanvas,
   } = useDrawingStore();
 
   const selectedShape = shapes.find((s) => s.id === selectedShapeId);
@@ -87,6 +92,10 @@ const ToolbarComponent = () => {
             <MenuItem value="arrow">
               <ArrowForward fontSize="small" className="mr-1" /> Arrow
             </MenuItem>
+            <MenuItem value="eraser">
+              <AutoFixOff fontSize="small" className="mr-1" />
+              Eraser
+            </MenuItem>
           </Select>
         </FormControl>
       </div>
@@ -109,6 +118,26 @@ const ToolbarComponent = () => {
           value={localStrokeWidth}
           onChange={(e, val) => handleStrokeWidthChange(val)}
         />
+      </div>
+
+      <div className="flex items-center gap-4">
+        <button
+          className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm"
+          onClick={() => {
+            if (selectedShapeId) deleteShape(selectedShapeId);
+          }}
+        >
+          <Delete fontSize="small" className="mr-1" />
+          Delete Selected
+        </button>
+
+        <button
+          className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-sm"
+          onClick={clearCanvas}
+        >
+          <CleaningServices fontSize="small" className="mr-1" />
+          Clear Canvas
+        </button>
       </div>
     </div>
   );
