@@ -26,6 +26,16 @@ const useDrawingStore = create((set) => ({
   },
 
   setSelectedShapeId: (id) => set({ selectedShapeId: id }),
+
+  deleteShape: (id) => {
+    set((state) => ({
+      shapes: state.shapes.filter((s) => s.id !== id),
+      selectedShapeId:
+        state.selectedShapeId === id ? null : state.selectedShapeId,
+    }));
+  },
+
+  clearCanvas: () => set({ shapes: [], selectedShapeId: null }),
 }));
 
 export default useDrawingStore;
