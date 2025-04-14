@@ -33,6 +33,8 @@ const ToolbarComponent = () => {
     selectedShapeId,
     deleteShape,
     clearCanvas,
+    undo,
+    redo,
   } = useDrawingStore();
 
   const selectedShape = shapes.find((s) => s.id === selectedShapeId);
@@ -143,12 +145,18 @@ const ToolbarComponent = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        <button className="bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded text-sm">
+        <button
+          className="bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded text-sm"
+          onClick={undo}
+        >
           <Undo fontSize="small" className="mr-1" />
           Undo
         </button>
 
-        <button className="bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded text-sm">
+        <button
+          className="bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded text-sm"
+          onClick={redo}
+        >
           <Redo fontSize="small" className="mr-1" />
           Redo
         </button>
