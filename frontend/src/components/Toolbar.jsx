@@ -16,6 +16,8 @@ import {
   Delete,
   CleaningServices,
   AutoFixOff,
+  Undo,
+  Redo,
 } from '@mui/icons-material';
 
 const ToolbarComponent = () => {
@@ -137,6 +139,18 @@ const ToolbarComponent = () => {
         >
           <CleaningServices fontSize="small" className="mr-1" />
           Clear Canvas
+        </button>
+      </div>
+
+      <div className="flex items-center gap-4">
+        <button className="bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded text-sm">
+          <Undo fontSize="small" className="mr-1" />
+          Undo
+        </button>
+
+        <button className="bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded text-sm">
+          <Redo fontSize="small" className="mr-1" />
+          Redo
         </button>
       </div>
     </div>
