@@ -49,7 +49,13 @@ const Canvas = () => {
       return;
     }
 
-    if (tool == 'select') return;
+    if (tool == 'select') {
+      const clickedOnEmpty = e.target === e.target.getStage();
+      if (clickedOnEmpty) {
+        setSelectedShapeId(null);
+      }
+      return;
+    }
 
     const shape = {
       id: uuidv4(),
@@ -130,7 +136,9 @@ const Canvas = () => {
   };
 
   const handleSelect = (id) => {
-    if (tool === 'select') setSelectedShapeId(id);
+    if (tool === 'select') {
+      setSelectedShapeId(id);
+    }
   };
 
   return (
@@ -153,10 +161,11 @@ const Canvas = () => {
             const isSelected = shape.id === selectedShapeId;
             const commonProps = {
               id: shape.id,
-              stroke: shape.stroke,
+              stroke: isSelected ? '#1d4ed8' : shape.stroke,
+              shadowColor: isSelected ? '#1d4ed8' : undefined,
+              onClick: () => handleSelect(shape.id),
               strokeWidth: shape.strokeWidth,
               draggable: shape.draggable,
-              onClick: () => handleSelect(shape.id),
               onTransformEnd: (e) => handleTransformEnd(e, shape),
               onDragEnd: (e) =>
                 updateShape(shape.id, {
