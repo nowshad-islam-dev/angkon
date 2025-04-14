@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import useDrawingStore from '../store';
 
 import {
@@ -16,8 +16,53 @@ import {
 } from '@mui/icons-material';
 
 const ToolbarComponent = () => {
-  const { tool, setTool, color, setColor, strokeWidth, setStrokeWidth } =
-    useDrawingStore();
+  const {
+    tool,
+    setTool,
+    color,
+    setColor,
+    strokeWidth,
+    setStrokeWidth,
+    shapes,
+    updateShape,
+    selectedShapeId,
+  } = useDrawingStore();
+
+  const selectedShape = shapes.find((s) => s.id === selectedShapeId);
+  const [localColor, setLocalColor] = useState(color);
+  const [localStrokeWidth, setLocalStrokeWidth] = useState(strokeWidth);
+
+  // Update toolbar values when a new shape is selected
+  useEffect(() => {
+    if (selectedShape) {
+      setLocalColor(selectedShape.stroke || '#000000');
+      setLocalStrokeWidth(selectedShape.strokeWidth || 2);
+    }
+  }, [selectedShapeId]);
+
+  // Handle color change
+  const handleColorChange = (newColor) => {
+    setLocalColor(newColor);
+    setColor(newColor); // Always update default color
+
+    if (selectedShapeId) {
+      updateShape(selectedShapeId, { stroke: newColor });
+    } else {
+      setColor(newColor); // For new shapes
+    }
+  };
+
+  // Handle strokeWidth change
+  const handleStrokeWidthChange = (newWidth) => {
+    setLocalStrokeWidth(newWidth);
+    setStrokeWidth(newWidth); // Always update default strokeWidth
+
+    if (selectedShapeId) {
+      updateShape(selectedShapeId, { strokeWidth: newWidth });
+    } else {
+      setStrokeWidth(newWidth); // For new shapes
+    }
+  };
 
   return (
     <div className="flex items-center gap-4 p-4 bg-gray-100 shadow-sm border-b">
@@ -50,8 +95,8 @@ const ToolbarComponent = () => {
         <label className="text-sm">Color</label>
         <input
           type="color"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
+          value={localColor}
+          onChange={(e) => handleColorChange(e.target.value)}
           className="w-10 h-10 border rounded-md cursor-pointer"
         />
       </div>
@@ -61,8 +106,8 @@ const ToolbarComponent = () => {
         <Slider
           min={1}
           max={10}
-          value={strokeWidth}
-          onChange={(e, val) => setStrokeWidth(val)}
+          value={localStrokeWidth}
+          onChange={(e, val) => handleStrokeWidthChange(val)}
         />
       </div>
     </div>
