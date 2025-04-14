@@ -17,6 +17,7 @@ const Canvas = () => {
     shapes,
     addShape,
     updateShape,
+    deleteShape,
     selectedShapeId,
     setSelectedShapeId,
     tool,
@@ -209,7 +210,20 @@ const Canvas = () => {
                   />
                 );
               case 'freedraw':
-                return <Line {...shape} key={shape.id} tension={0.5} />;
+                return (
+                  <Line
+                    {...shape}
+                    key={shape.id}
+                    tension={0.5}
+                    onClick={() => {
+                      if (tool === 'eraser') {
+                        deleteShape(shape.id); // Only erase if current tool is eraser
+                      } else {
+                        setSelectedShapeId(shape.id);
+                      }
+                    }}
+                  />
+                );
               default:
                 return null;
             }
