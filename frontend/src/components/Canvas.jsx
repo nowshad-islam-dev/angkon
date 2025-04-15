@@ -99,6 +99,31 @@ const Canvas = () => {
 
   const handleMouseUp = () => {
     if (newShape) {
+      const MIN_WIDTH = 15;
+      const MIN_HEIGHT = 15;
+      const MIN_DISTANCE = 28;
+      if (
+        newShape.type === 'rectangle' &&
+        (newShape.height < MIN_HEIGHT || newShape.width < MIN_WIDTH)
+      ) {
+        // If the rectangle is too small, don't add it
+        setNewShape(null);
+        return;
+      }
+      if (newShape.type === 'circle' && newShape.width < MIN_WIDTH) {
+        // If the circle has too small a radius, don't add it
+        setNewShape(null);
+        return;
+      }
+      if (newShape.type === 'arrow') {
+        const [x1, y1, x2, y2] = newShape.points;
+        const distance = Math.round(Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2));
+        if (distance < MIN_DISTANCE) {
+          // If the arrow's length is too small, don't add it
+          setNewShape(null);
+          return;
+        }
+      }
       addShape(newShape);
       setNewShape(null);
     }
@@ -124,15 +149,32 @@ const Canvas = () => {
   }, [selectedShapeId, shapes]);
 
   const handleTransformEnd = (e, shape) => {
+    const MIN_WIDTH = 15;
+    const MIN_HEIGHT = 15;
     const node = e.target;
+
+    const scaleX = node.scaleX();
+    const scaleY = node.scaleY();
+    // Reset scaling to 1
+    node.scaleX(1);
+    node.scaleY(1);
+
+    // Calculate new dimensions
+    let width = node.width() * scaleX;
+    let height = node.height() * scaleY;
+
+    // Clamp to minimums
+    width = Math.max(MIN_WIDTH, width);
+    height = Math.max(MIN_HEIGHT, height);
+
+    // Apply updated shape attributes
     const newAttrs = {
       x: node.x(),
       y: node.y(),
-      width: node.width() * node.scaleX(),
-      height: node.height() * node.scaleY(),
+      width,
+      height,
     };
-    node.scaleX(1);
-    node.scaleY(1);
+
     updateShape(shape.id, newAttrs);
   };
 
