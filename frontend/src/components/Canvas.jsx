@@ -15,7 +15,7 @@ import useDrawingStore from '../store';
 //components
 import Grid from './Grid';
 
-const Canvas = () => {
+const Canvas = ({ canvasHeight, canvasWidth }) => {
   const {
     shapes,
     addShape,
@@ -27,9 +27,6 @@ const Canvas = () => {
     color,
     strokeWidth,
   } = useDrawingStore();
-
-  const [canvasWidth, setCanvasWidth] = useState(window.innerWidth);
-  const [canvasHeight, setCanvasHeight] = useState(window.innerHeight);
 
   const stageRef = useRef();
   const transformRef = useRef();
