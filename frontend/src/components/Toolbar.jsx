@@ -20,7 +20,12 @@ import {
   Redo,
 } from '@mui/icons-material';
 
-const ToolbarComponent = () => {
+const ToolbarComponent = ({
+  canvasHeight,
+  canvasWidth,
+  setCanvasHeight,
+  setCanvasWidth,
+}) => {
   const {
     tool,
     setTool,
@@ -160,6 +165,26 @@ const ToolbarComponent = () => {
           <Redo fontSize="small" className="mr-1" />
           Redo
         </button>
+      </div>
+      <div className="flex gap-4 items-center p-2">
+        <label>
+          Width:
+          <input
+            type="number"
+            value={canvasWidth}
+            onChange={(e) => setCanvasWidth(Number(e.target.value))}
+            className="ml-2 w-20 border px-2 py-1 rounded"
+          />
+        </label>
+        <label>
+          Height:
+          <input
+            type="number"
+            value={canvasHeight}
+            onChange={(e) => setCanvasHeight(Number(e.target.value))}
+            className="ml-2 w-20 border px-2 py-1 rounded"
+          />
+        </label>
       </div>
     </div>
   );
