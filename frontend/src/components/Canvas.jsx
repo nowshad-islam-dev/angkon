@@ -12,6 +12,9 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import useDrawingStore from '../store';
 
+//components
+import Grid from './Grid';
+
 const Canvas = () => {
   const {
     shapes,
@@ -24,6 +27,9 @@ const Canvas = () => {
     color,
     strokeWidth,
   } = useDrawingStore();
+
+  const [canvasWidth, setCanvasWidth] = useState(window.innerWidth);
+  const [canvasHeight, setCanvasHeight] = useState(window.innerHeight);
 
   const stageRef = useRef();
   const transformRef = useRef();
@@ -188,13 +194,14 @@ const Canvas = () => {
     <>
       <Stage
         ref={stageRef}
-        width={window.innerWidth}
-        height={window.innerHeight}
+        width={canvasWidth}
+        height={canvasHeight}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         style={{ background: '#f0f0f0' }}
       >
+        <Grid canvasWidth={canvasWidth} canvasHeight={canvasHeight} />
         <Layer>
           {[
             ...shapes,
