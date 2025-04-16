@@ -26,6 +26,9 @@ const ToolbarComponent = ({
   setCanvasHeight,
   setCanvasWidth,
 }) => {
+  const MAX_CANVAS_WIDTH = 3440;
+  const MAX_CANVAS_HEIGHT = 2160;
+
   const {
     tool,
     setTool,
@@ -172,7 +175,10 @@ const ToolbarComponent = ({
           <input
             type="number"
             value={canvasWidth}
-            onChange={(e) => setCanvasWidth(Number(e.target.value))}
+            onChange={(e) => {
+              const value = Number(e.target.value);
+              setCanvasWidth(Math.min(value, MAX_CANVAS_WIDTH));
+            }}
             className="ml-2 w-20 border px-2 py-1 rounded"
           />
         </label>
@@ -181,7 +187,10 @@ const ToolbarComponent = ({
           <input
             type="number"
             value={canvasHeight}
-            onChange={(e) => setCanvasHeight(Number(e.target.value))}
+            onChange={(e) => {
+              const value = Number(e.target.value);
+              setCanvasHeight(Math.min(value, MAX_CANVAS_HEIGHT));
+            }}
             className="ml-2 w-20 border px-2 py-1 rounded"
           />
         </label>
